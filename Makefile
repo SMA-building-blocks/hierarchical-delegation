@@ -22,3 +22,4 @@ run:
 clean:
 	@echo "Removendo a build do projeto"
 	mvn clean
+	rm -f APDescription.txt; rm -f MTPs-Main-Container.txt
