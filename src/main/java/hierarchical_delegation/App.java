@@ -64,7 +64,7 @@ public class App extends BaseAgent {
 
 		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 
-		int dataSize = rand.nextInt(5, 11);
+		dataSize = rand.nextInt(5, 11);
 		String numbers = generateData(dataSize);
 		String content =  String.format("START DATA %d %s", dataSize, numbers);
 		msg.setContent(content);

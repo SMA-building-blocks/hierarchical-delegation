@@ -11,7 +11,8 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 
 import java.util.logging.Logger;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -42,7 +43,9 @@ public abstract class BaseAgent extends Agent {
 	
 	protected static final Random rand = new Random();
 
-	protected int votingCode;
+	protected int dataSize;
+
+	protected ArrayList<Integer> data = new ArrayList<>();
 	
 	protected static final Logger logger = Logger.getLogger(BaseAgent.class.getName());
 	
@@ -188,5 +191,20 @@ public abstract class BaseAgent extends Agent {
 		handler.setFormatter(new LogFormatter());
 		logger.setUseParentHandlers(false);
 		logger.addHandler(handler);
+	}
+
+	
+	protected void parseData(ACLMessage msg) {
+		ArrayList<String> splitedMsg = new ArrayList<> (Arrays.asList(msg.getContent().split(" ")));
+
+		int start = splitedMsg.indexOf(DATA);
+
+		dataSize = Integer.parseInt(splitedMsg.get(++start));
+
+		data.clear();
+
+		for(int i = start+1; i<= start+dataSize; i++){
+			data.add(Integer.parseInt(splitedMsg.get(i)));
+		}
 	}
 }

@@ -37,7 +37,11 @@ public class Manager extends BaseAgent {
 			public void action () {
 				if (msg.getContent().startsWith(START)) {
 					logger.log(Level.INFO, String.format("%s MANAGER AGENT RECEIVED A START!", getLocalName()));
-					
+					if (msg.getContent().contains(DATA)){
+						parseData(msg);
+					}else{
+						logger.log(Level.SEVERE, String.format("%s NO DATA TO PROCESS RECEIVED %s", ANSI_RED, ANSI_RESET));
+					}
 					ACLMessage msg2 = new ACLMessage(ACLMessage.INFORM);
 					msg2.setContent(START);
 					
