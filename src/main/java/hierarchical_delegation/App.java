@@ -5,6 +5,7 @@ package hierarchical_delegation;
 
 import jade.wrapper.AgentController;
 import jade.wrapper.AgentContainer;
+import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
 import java.io.IOException;
@@ -58,11 +59,17 @@ public class App extends BaseAgent {
 		
 		logger.log(Level.INFO, "Agents started...");
 		pauseSystem();
-		
 		// send them a message demanding start
 		logger.log(Level.INFO, "Starting system!");
 
-		sendMessage(m1AgentName, ACLMessage.INFORM, START);
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+
+		int dataSize = rand.nextInt(5, 11);
+		String numbers = generateData(dataSize);
+		String content =  String.format("START DATA %d %s", dataSize, numbers);
+		msg.setContent(content);
+		msg.addReceiver(new AID(m1AgentName, AID.ISLOCALNAME));
+		send(msg);
 		logger.log(Level.INFO,String.format("%s SENT START MESSAGE TO %s", getLocalName(), m1AgentName));
 	}
 	
@@ -87,5 +94,16 @@ public class App extends BaseAgent {
 			logger.log(Level.SEVERE, String.format("%s ERROR WHILE LAUNCHING AGENTS %s", ANSI_RED , ANSI_RESET));
 			e.printStackTrace();
 		}
+	}
+
+	private String generateData(int dataSize){
+
+		StringBuffer data = new StringBuffer();
+
+		for(int i =0; i < dataSize; i++){
+			data.append(String.format("%d ", rand.nextInt(1,101)));
+		}
+
+		return data.toString();
 	}
 }

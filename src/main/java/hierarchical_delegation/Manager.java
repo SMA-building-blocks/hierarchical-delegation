@@ -23,10 +23,9 @@ public class Manager extends BaseAgent {
 
 	@Override
 	protected void setup() {
-
 		logger.log(Level.INFO, "I'm the manager!");
 		this.registerDF(this, "Manager", "manager");
-		
+
 		addBehaviour(handleMessages());
 	}
 	

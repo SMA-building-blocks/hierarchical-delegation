@@ -1,6 +1,5 @@
 package hierarchical_delegation;
 
-import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
@@ -28,8 +27,8 @@ public abstract class BaseAgent extends Agent {
 	public static final String INVITE = "INVITE";
 	public static final String REGISTERED = "REGISTERED";
 	public static final String INFORM = "INFORM";
-	public static final String VOTE = "VOTE";
 	public static final String UNEXPECTED_MSG = "RECEIVED UNEXPECTED MESSAGE FROM";
+	public static final String DATA = "DATA";
 
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_BLUE = "\u001B[34m";
@@ -129,13 +128,6 @@ public abstract class BaseAgent extends Agent {
 		} catch (FIPAException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	protected void sendMessage(String agentName, int performative, String content) {
-		ACLMessage msg = new ACLMessage(performative);
-		msg.setContent(content);
-		msg.addReceiver(new AID(agentName, AID.ISLOCALNAME));
-		send(msg);
 	}
 	
 	protected DFAgentDescription[] searchAgentByType (String type) {
