@@ -69,7 +69,6 @@ public class Subordinate extends BaseAgent {
 						strategyOp = new AverageStrategy();
 						break;
 					case MEDIAN:
-						// WIP: to be fixed
 						strategyOp = new MedianStrategy();
 						break;
 					case MODE:
