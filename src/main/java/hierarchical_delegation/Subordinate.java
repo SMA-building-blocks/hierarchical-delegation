@@ -2,12 +2,19 @@ package hierarchical_delegation;
 
 import java.util.logging.Level;
 
+import hierarchical_delegation.strategies.AverageStrategy;
+import hierarchical_delegation.strategies.MedianStrategy;
+import hierarchical_delegation.strategies.ModeStrategy;
+import hierarchical_delegation.strategies.SortStrategy;
+import hierarchical_delegation.strategies.StdDeviationStrategy;
+import hierarchical_delegation.strategies.Strategy;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 
 public class Subordinate extends BaseAgent {
 
 	private static final long serialVersionUID = 1L;
+	Strategy strategyOp;
 
 	@Override
 	protected void setup() {
@@ -51,34 +58,29 @@ public class Subordinate extends BaseAgent {
 			public void action() {
 				String reqOperation = msg.getContent().split(" ")[0];
 
+				parseData(msg);
+				System.out.println(data);
+
 				logger.log(Level.INFO, String.format("%s SUBORDINATE AGENT RECEIVED A TASK (%s)!",
 						getLocalName(), reqOperation));
 
 				switch (reqOperation) {
 					case AVERAGE:
-						/*
-						 * TO-DO: implement average method over data
-						 */
+						strategyOp = new AverageStrategy();
 						break;
 					case MEDIAN:
-						/*
-						 * TO-DO: implement median method over data
-						 */
+						// WIP: to be fixed
+						strategyOp = new MedianStrategy();
 						break;
 					case MODE:
-						/*
-						 * TO-DO: implement mode method over data
-						 */
+						// WIP: to be fixed
+						strategyOp = new ModeStrategy();
 						break;
 					case STD_DEVIATION:
-						/*
-						 * TO-DO: implement std deviation method over data
-						 */
+						strategyOp = new StdDeviationStrategy();
 						break;
 					case SORT:
-						/*
-						 * TO-DO: implement sort method over data
-						 */
+						strategyOp = new SortStrategy();
 						break;
 					default:
 						logger.log(Level.INFO,
@@ -86,6 +88,9 @@ public class Subordinate extends BaseAgent {
 										msg.getSender().getLocalName()));
 						break;
 				}
+
+				Object ret = strategyOp.executeOperation(data);
+				System.out.println(String.format("I'm %s and I performed %s on data: %s\n", getLocalName(), reqOperation, ret.toString()));
 
 				ACLMessage msg2 = msg.createReply();
 
