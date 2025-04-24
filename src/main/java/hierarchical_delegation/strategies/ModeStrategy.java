@@ -1,37 +1,40 @@
 package hierarchical_delegation.strategies;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class ModeStrategy implements Strategy {
     @Override
     public ArrayList<Integer> executeOperation(ArrayList<Integer> data) {
         data.sort(null);
+        int prev = data.get(0);
+        int maxCount = 1;
+        int count = 1;
+        ArrayList<Integer> mode = new ArrayList<>();
 
-        // WIP: to be fixed
-
-        int prev = data.get(0), counter = 0;
-        Hashtable<Integer, Integer> ht = new Hashtable<>();
-        for ( int element : data ) {
-            if ( element == prev ) counter++;
-            else {
-                ht.put(prev, counter);
-                prev = element;
-                counter = 0;
+        for(int i = 1; i< data.size(); i++){
+            if(data.get(i) == prev){
+                count++;
+            } else {
+                if( count > maxCount){
+                    maxCount = count;
+                    mode.clear();
+                    mode.add(prev);
+                } else if (count == maxCount){
+                    mode.add(prev);
+                }
+                count = 1;
+                prev = data.get(i);
             }
         }
-
-        ArrayList<Integer> result = new ArrayList<>();
-        int maxCount = -1;
-        while ( ht.keys().hasMoreElements() ) {
-            int key = ht.keys().nextElement();
-           
-            if ( ht.get(key) > maxCount ) result.clear();
-            else if ( ht.get(key) < maxCount ) continue;
-
-            result.add(key);
-            maxCount = ht.get(key);
+        
+        if( count > maxCount){
+            maxCount = count;
+            mode.clear();
+            mode.add(prev);
+        } else if (count == maxCount){
+            mode.add(prev);
         }
-        return data;
+
+        return mode;
     }
 }
