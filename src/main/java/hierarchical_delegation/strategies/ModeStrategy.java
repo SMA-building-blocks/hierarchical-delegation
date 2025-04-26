@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class ModeStrategy implements Strategy {
     @Override
-    public ArrayList<Integer> executeOperation(ArrayList<Integer> data) {
+    public ArrayList<Double> executeOperation(ArrayList<Double> data) {
         data.sort(null);
-        int prev = data.get(0);
+        double prev = data.get(0);
         int maxCount = 1;
         int count = 1;
-        ArrayList<Integer> mode = new ArrayList<>();
+        ArrayList<Double> mode = new ArrayList<>();
 
         for(int i = 1; i< data.size(); i++){
             if(data.get(i) == prev){
