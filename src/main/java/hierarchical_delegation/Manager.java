@@ -34,15 +34,17 @@ public class Manager extends BaseAgent {
 				if (msg.getContent().startsWith(START)) {
 					logger.log(Level.INFO, String.format("%s MANAGER AGENT RECEIVED A START!", getLocalName()));
 					if (msg.getContent().contains(DATA)) {
-						parseData(msg);
+						data.clear();
+						data = parseData(msg);
+						dataSize = data.size();
 
 						Collections.shuffle(originalOperations);
 						operations = new LinkedList<>(originalOperations);
 
 						StringBuffer builder = new StringBuffer();
 
-						for (int val : data) {
-							builder.append(String.format("%d ", val));
+						for (double val : data) {
+							builder.append(String.format("%s ", Double.toString(val)));
 						}
 
 						String msgContentData = String.format("%s %d %s", DATA, data.size(), builder.toString().trim());
@@ -65,7 +67,20 @@ public class Manager extends BaseAgent {
 								String.format("%s NO DATA TO PROCESS RECEIVED %s", ANSI_RED, ANSI_RESET));
 					}
 				} else if (msg.getContent().startsWith(THANKS)) {
-					logger.log(Level.INFO, "RECEIVED THANKS");
+					logger.log(Level.INFO, String.format("%s RECEIVED THANKS FROM %s!", 
+						getLocalName(), msg.getSender().getLocalName()));
+				} else if (msg.getContent().startsWith(INFORM)) {
+					ArrayList<String> msgContent = new ArrayList<>(Arrays.asList(msg.getContent().split(" ")));
+					String performedOp = msgContent.get(1);
+
+					ArrayList<Double> recvData = parseData(msg);
+
+					logger.log(Level.INFO, String.format("%s RECEIVED DATA FROM %s AFTER %s OPERATION: %s!", getLocalName(), msg.getSender().getLocalName(), performedOp, recvData.toString()));
+
+					ACLMessage msg2 = msg.createReply();
+					msg2.setPerformative(ACLMessage.INFORM);
+					msg2.setContent(THANKS);
+					send(msg2);
 				} else {
 					logger.log(Level.INFO,
 							String.format("%s %s %s", getLocalName(), UNEXPECTED_MSG,

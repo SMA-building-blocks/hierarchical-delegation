@@ -1,4 +1,4 @@
-QUORUM ?= 3
+QUORUM ?= 5
 DF_MAX_RESULT := $(shell expr $(QUORUM) + 5)
 PATH_PROJECT_JAR = target/hierarchical_delegation-0.0.1-SNAPSHOT.jar
 PROJECT_GROUP    = hierarchical_delegation

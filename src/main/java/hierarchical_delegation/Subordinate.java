@@ -1,6 +1,8 @@
 package hierarchical_delegation;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import hierarchical_delegation.strategies.AverageStrategy;
 import hierarchical_delegation.strategies.MedianStrategy;
@@ -41,6 +43,9 @@ public class Subordinate extends BaseAgent {
 					send(msg2);
 					logger.log(Level.INFO, String.format("%s SENT THANKS MESSAGE TO %s", getLocalName(),
 							msg.getSender().getLocalName()));
+				} else if (msg.getContent().startsWith(THANKS)) {
+					logger.log(Level.INFO, String.format("%s RECEIVED THANKS FROM %s!", 
+						getLocalName(), msg.getSender().getLocalName()));
 				} else {
 					logger.log(Level.INFO,
 							String.format("%s RECEIVED AN UNEXPECTED MESSAGE FROM %s", getLocalName(),
@@ -58,11 +63,12 @@ public class Subordinate extends BaseAgent {
 			public void action() {
 				String reqOperation = msg.getContent().split(" ")[0];
 
-				parseData(msg);
-				System.out.println(data);
+				data.clear();
+				data = parseData(msg);
+				dataSize = data.size();
 
-				logger.log(Level.INFO, String.format("%s SUBORDINATE AGENT RECEIVED A TASK (%s)!",
-						getLocalName(), reqOperation));
+				logger.log(Level.INFO, String.format("%s AGENT RECEIVED A TASK (%s) AND DATA: %s!",
+						getLocalName(), reqOperation, data.toString()));
 
 				switch (reqOperation) {
 					case AVERAGE:
@@ -87,14 +93,15 @@ public class Subordinate extends BaseAgent {
 						break;
 				}
 
-				Object ret = strategyOp.executeOperation(data);
-				System.out.println(String.format("I'm %s and I performed %s on data: %s\n", getLocalName(), reqOperation, ret.toString()));
+				ArrayList<Double> objRet = strategyOp.executeOperation(data);
+				String strRet = objRet.stream().map(val -> String.format("%s", Double.toString(val))).collect(Collectors.joining(" ")).trim();
+
+				logger.log(Level.INFO, String.format("%s I'm %s and I performed %s on data, resulting on: %s %s", ANSI_GREEN, 
+						getLocalName(), reqOperation, strRet, ANSI_RESET));
 
 				ACLMessage msg2 = msg.createReply();
-
 				msg2.setPerformative(ACLMessage.INFORM);
-				msg2.setContent(THANKS);
-
+				msg2.setContent(String.format("%s %s %s %d %s", INFORM, reqOperation, DATA, objRet.size(), strRet));
 				send(msg2);
 
 				logger.log(Level.INFO, String.format("%s SENT THANKS MESSAGE TO %s", getLocalName(),

@@ -56,7 +56,7 @@ public abstract class BaseAgent extends Agent {
 
 	protected int dataSize;
 
-	protected ArrayList<Integer> data = new ArrayList<>();
+	protected ArrayList<Double> data = new ArrayList<>();
 
 	protected static final Logger logger = Logger.getLogger(BaseAgent.class.getName());
 
@@ -212,17 +212,23 @@ public abstract class BaseAgent extends Agent {
 		logger.addHandler(handler);
 	}
 
-	protected void parseData(ACLMessage msg) {
-		ArrayList<String> splitedMsg = new ArrayList<>(Arrays.asList(msg.getContent().split(" ")));
+	protected ArrayList<Double> parseData(ACLMessage msg) {
+		String msgContent = msg.getContent();
+
+		msgContent = msgContent.replaceAll("\\[|\\]|[,]", "");
+
+		ArrayList<String> splitedMsg = new ArrayList<>(Arrays.asList(msgContent.split(" ")));
 
 		int start = splitedMsg.indexOf(DATA);
 
-		dataSize = Integer.parseInt(splitedMsg.get(++start));
+		int dataSize = Integer.parseInt(splitedMsg.get(++start));
 
-		data.clear();
+		ArrayList<Double> data = new ArrayList<>();
 
 		for (int i = start + 1; i <= start + dataSize; i++) {
-			data.add(Integer.parseInt(splitedMsg.get(i)));
+			data.add(Double.parseDouble(splitedMsg.get(i)));
 		}
+
+		return data;
 	}
 }

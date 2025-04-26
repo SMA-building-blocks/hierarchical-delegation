@@ -1,10 +1,11 @@
 package hierarchical_delegation.strategies;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AverageStrategy implements Strategy {
     @Override
-    public Double executeOperation(ArrayList<Integer> data) {
-        return (double) data.stream().mapToDouble(element -> element).sum()/data.size();
+    public ArrayList<Double> executeOperation(ArrayList<Double> data) {
+        return new ArrayList<>(Arrays.asList((double) data.stream().mapToDouble(element -> element).sum()/data.size()));
     }
 }
