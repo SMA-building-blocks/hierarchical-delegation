@@ -77,10 +77,22 @@ public class Manager extends BaseAgent {
 
 					logger.log(Level.INFO, String.format("%s RECEIVED DATA FROM %s AFTER %s OPERATION: %s!", getLocalName(), msg.getSender().getLocalName(), performedOp, recvData.toString()));
 
-					ACLMessage msg2 = msg.createReply();
-					msg2.setPerformative(ACLMessage.INFORM);
-					msg2.setContent(THANKS);
-					send(msg2);
+					if(operations.size()==0){
+						ACLMessage msg2 = msg.createReply();
+						msg2.setPerformative(ACLMessage.INFORM);
+						msg2.setContent(THANKS);
+						send(msg2);
+					}else{
+						StringBuffer builder = new StringBuffer();
+
+						for (double val : data) {
+							builder.append(String.format("%s ", Double.toString(val)));
+						}
+
+						String msgContentData = String.format("%s %d %s", DATA, data.size(), builder.toString().trim());
+						sendMessage(msg.getSender().getLocalName(), ACLMessage.REQUEST,
+										String.format("%s %s", operations.remove(), msgContentData));
+					}
 				} else {
 					logger.log(Level.INFO,
 							String.format("%s %s %s", getLocalName(), UNEXPECTED_MSG,

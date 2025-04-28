@@ -104,7 +104,7 @@ public class Subordinate extends BaseAgent {
 				msg2.setContent(String.format("%s %s %s %d %s", INFORM, reqOperation, DATA, objRet.size(), strRet));
 				send(msg2);
 
-				logger.log(Level.INFO, String.format("%s SENT THANKS MESSAGE TO %s", getLocalName(),
+				logger.log(Level.INFO, String.format("%s SENT RETURN DATA MESSAGE TO %s", getLocalName(),
 						msg.getSender().getLocalName()));
 			}
 		};
