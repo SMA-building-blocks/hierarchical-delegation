@@ -10,6 +10,6 @@ public class StdDeviationStrategy implements Strategy {
 
         double variance = data.stream().mapToDouble(element -> ((element - avg)*(element - avg))).sum()/data.size();
 
-        return new ArrayList<>(Arrays.asList(Math.sqrt(variance)));
+        return new ArrayList<>(Arrays.asList((double) ((double) Math.round(Math.sqrt(variance) * 100)/100)));
     }
 }
