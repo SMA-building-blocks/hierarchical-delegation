@@ -95,12 +95,12 @@ public class App extends BaseAgent {
 		}
 	}
 
-	private String generateData(int dataSize) {
+	private String generateData(int newDataSize) {
 
-		StringBuffer data = new StringBuffer();
+		StringBuilder newData = new StringBuilder();
 
-		for (int i = 0; i < dataSize; i++) {
-			data.append(String.format("%d ", rand.nextInt(1, 101)));
+		for (int i = 0; i < newDataSize; i++) {
+			newData.append(String.format("%d ", rand.nextInt(1, 101)));
 		}
 
 		return data.toString().trim();
