@@ -32,14 +32,14 @@ public abstract class BaseAgent extends Agent {
 	public static final String UNEXPECTED_MSG = "RECEIVED AN UNEXPECTED MESSAGE FROM";
 	public static final String DATA = "DATA";
 
-	// disponible operations
+	// available operations
 	public static final String AVERAGE = "AVERAGE";
 	public static final String MODE = "MODE";
 	public static final String MEDIAN = "MEDIAN";
 	public static final String STD_DEVIATION = "STD_DEVIATION";
 	public static final String SORT = "SORT";
 
-	public static final ArrayList<String> originalOperations = new ArrayList<>(Arrays.asList(
+	protected static final ArrayList<String> originalOperations = new ArrayList<>(Arrays.asList(
 			AVERAGE, MEDIAN, MODE, STD_DEVIATION, SORT));
 
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -221,12 +221,12 @@ public abstract class BaseAgent extends Agent {
 
 		int start = splitedMsg.indexOf(DATA);
 
-		int dataSize = Integer.parseInt(splitedMsg.get(++start));
+		int returnDataSize = Integer.parseInt(splitedMsg.get(++start));
 
-		ArrayList<Double> data = new ArrayList<>();
+		ArrayList<Double> returnData = new ArrayList<>();
 
-		for (int i = start + 1; i <= start + dataSize; i++) {
-			data.add(Double.parseDouble(splitedMsg.get(i)));
+		for (int i = start + 1; i <= start + returnDataSize; i++) {
+			returnData.add(Double.parseDouble(splitedMsg.get(i)));
 		}
 
 		return data;
