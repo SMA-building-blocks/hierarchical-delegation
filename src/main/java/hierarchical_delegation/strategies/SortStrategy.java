@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class SortStrategy implements Strategy {
     @Override
-    public ArrayList<Double> executeOperation(ArrayList<Double> data) {
-        data.sort(null);
-        return data;
+    public ArrayList<Double> executeOperation(ArrayList<Double> recvData) {
+        recvData.sort(null);
+        return recvData;
     }
 }

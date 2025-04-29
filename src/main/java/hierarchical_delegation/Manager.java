@@ -34,20 +34,20 @@ public class Manager extends BaseAgent {
 				if (msg.getContent().startsWith(START)) {
 					logger.log(Level.INFO, String.format("%s MANAGER AGENT RECEIVED A START!", getLocalName()));
 					if (msg.getContent().contains(DATA)) {
-						data.clear();
-						data = parseData(msg);
-						dataSize = data.size();
+						workingData.clear();
+						workingData = parseData(msg);
+						dataSize = workingData.size();
 
 						Collections.shuffle(originalOperations);
 						operations = new LinkedList<>(originalOperations);
 
 						StringBuilder builder = new StringBuilder();
 
-						for (double val : data) {
+						for (double val : workingData) {
 							builder.append(String.format("%s ", Double.toString(val)));
 						}
 
-						String msgContentData = String.format("%s %d %s", DATA, data.size(), builder.toString().trim());
+						String msgContentData = String.format("%s %d %s", DATA, workingData.size(), builder.toString().trim());
 
 						ArrayList<DFAgentDescription> foundWorkers = new ArrayList<>(
 								Arrays.asList(searchAgentByType("subordinate")));
@@ -85,11 +85,11 @@ public class Manager extends BaseAgent {
 					}else{
 						StringBuilder builder = new StringBuilder();
 
-						for (double val : data) {
+						for (double val : workingData) {
 							builder.append(String.format("%s ", Double.toString(val)));
 						}
 
-						String msgContentData = String.format("%s %d %s", DATA, data.size(), builder.toString().trim());
+						String msgContentData = String.format("%s %d %s", DATA, workingData.size(), builder.toString().trim());
 						sendMessage(msg.getSender().getLocalName(), ACLMessage.REQUEST,
 										String.format("%s %s", operations.remove(), msgContentData));
 					}

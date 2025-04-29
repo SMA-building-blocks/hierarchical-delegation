@@ -57,7 +57,7 @@ public abstract class BaseAgent extends Agent {
 
 	protected int dataSize;
 
-	protected ArrayList<Double> data = new ArrayList<>();
+	protected ArrayList<Double> workingData = new ArrayList<>();
 
 	protected static final Logger logger = Logger.getLogger(BaseAgent.class.getName());
 

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class ModeStrategy implements Strategy {
     @Override
-    public ArrayList<Double> executeOperation(ArrayList<Double> data) {
-        data.sort(null);
-        double prev = data.get(0);
+    public ArrayList<Double> executeOperation(ArrayList<Double> recvData) {
+        recvData.sort(null);
+        double prev = recvData.get(0);
         int maxCount = 1;
         int count = 1;
         ArrayList<Double> mode = new ArrayList<>();
 
-        for(int i = 1; i< data.size(); i++){
-            if(data.get(i) == prev){
+        for(int i = 1; i< recvData.size(); i++){
+            if(recvData.get(i) == prev){
                 count++;
             } else {
                 if( count > maxCount){
@@ -23,7 +23,7 @@ public class ModeStrategy implements Strategy {
                     mode.add(prev);
                 }
                 count = 1;
-                prev = data.get(i);
+                prev = recvData.get(i);
             }
         }
         

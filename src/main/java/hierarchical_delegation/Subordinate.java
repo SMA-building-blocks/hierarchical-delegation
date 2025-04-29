@@ -63,12 +63,12 @@ public class Subordinate extends BaseAgent {
 			public void action() {
 				String reqOperation = msg.getContent().split(" ")[0];
 
-				data.clear();
-				data = parseData(msg);
-				dataSize = data.size();
+				workingData.clear();
+				workingData = parseData(msg);
+				dataSize = workingData.size();
 
 				logger.log(Level.INFO, String.format("%s AGENT RECEIVED A TASK (%s) AND DATA: %s!",
-						getLocalName(), reqOperation, data.toString()));
+						getLocalName(), reqOperation, workingData.toString()));
 
 				switch (reqOperation) {
 					case AVERAGE:
@@ -93,7 +93,7 @@ public class Subordinate extends BaseAgent {
 						break;
 				}
 
-				ArrayList<Double> objRet = strategyOp.executeOperation(data);
+				ArrayList<Double> objRet = strategyOp.executeOperation(workingData);
 				String strRet = objRet.stream().map(val -> String.format("%s", Double.toString(val))).collect(Collectors.joining(" ")).trim();
 
 				logger.log(Level.INFO, String.format("%s I'm %s and I performed %s on data, resulting on: %s %s", ANSI_GREEN, 
