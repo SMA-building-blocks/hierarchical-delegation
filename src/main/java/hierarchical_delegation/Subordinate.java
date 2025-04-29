@@ -16,7 +16,7 @@ import jade.lang.acl.ACLMessage;
 public class Subordinate extends BaseAgent {
 
 	private static final long serialVersionUID = 1L;
-	Strategy strategyOp;
+	private Strategy strategyOp;
 
 	@Override
 	protected void setup() {
