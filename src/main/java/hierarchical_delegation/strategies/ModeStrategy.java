@@ -28,7 +28,6 @@ public class ModeStrategy implements Strategy {
         }
         
         if( count > maxCount){
-            maxCount = count;
             mode.clear();
             mode.add(prev);
         } else if (count == maxCount){
