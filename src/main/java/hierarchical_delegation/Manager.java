@@ -31,41 +31,28 @@ public class Manager extends BaseAgent {
 			private static final long serialVersionUID = 1L;
 
 			public void action() {
-				if (msg.getContent().startsWith(START)) {
+				if (msg.getContent().startsWith(START) && msg.getContent().contains(DATA)) {
 					logger.log(Level.INFO, String.format("%s MANAGER AGENT RECEIVED A START!", getLocalName()));
-					if (msg.getContent().contains(DATA)) {
-						workingData.clear();
-						workingData = parseData(msg);
-						dataSize = workingData.size();
+					workingData.clear();
+					workingData = parseData(msg);
+					dataSize = workingData.size();
 
-						Collections.shuffle(originalOperations);
-						operations = new LinkedList<>(originalOperations);
+					Collections.shuffle(originalOperations);
+					operations = new LinkedList<>(originalOperations);
 
-						StringBuilder builder = new StringBuilder();
+					String msgContentData = String.format("%s %d %s", DATA, workingData.size(), prepareSendingData(workingData));
 
-						for (double val : workingData) {
-							builder.append(String.format("%s ", Double.toString(val)));
-						}
+					ArrayList<DFAgentDescription> foundWorkers = new ArrayList<>(
+							Arrays.asList(searchAgentByType("subordinate")));
 
-						String msgContentData = String.format("%s %d %s", DATA, workingData.size(), builder.toString().trim());
+					Collections.shuffle(foundWorkers);
 
-						ArrayList<DFAgentDescription> foundWorkers = new ArrayList<>(
-								Arrays.asList(searchAgentByType("subordinate")));
+					foundWorkers.forEach(ag -> {
+						sendMessage(ag.getName().getLocalName(), ACLMessage.REQUEST,
+								String.format("%s %s", operations.remove(), msgContentData));
+					});
 
-						Collections.shuffle(foundWorkers);
-
-						foundWorkers.forEach(ag -> {
-							if (!ag.getName().equals(myAgent.getAID())) {
-								sendMessage(ag.getName().getLocalName(), ACLMessage.REQUEST,
-										String.format("%s %s", operations.remove(), msgContentData));
-							}
-						});
-
-						logger.log(Level.INFO, String.format("%s SENT START MESSAGE TO WORKERS!", getLocalName()));
-					} else {
-						logger.log(Level.SEVERE,
-								String.format("%s NO DATA TO PROCESS RECEIVED %s", ANSI_RED, ANSI_RESET));
-					}
+					logger.log(Level.INFO, String.format("%s SENT START MESSAGE TO WORKERS!", getLocalName()));
 				} else if (msg.getContent().startsWith(THANKS)) {
 					logger.log(Level.INFO, String.format("%s RECEIVED THANKS FROM %s!", 
 						getLocalName(), msg.getSender().getLocalName()));
@@ -77,22 +64,15 @@ public class Manager extends BaseAgent {
 
 					logger.log(Level.INFO, String.format("%s RECEIVED DATA FROM %s AFTER %s OPERATION: %s!", getLocalName(), msg.getSender().getLocalName(), performedOp, recvData.toString()));
 
-					if(operations.isEmpty()){
-						ACLMessage msg2 = msg.createReply();
-						msg2.setPerformative(ACLMessage.INFORM);
-						msg2.setContent(THANKS);
-						send(msg2);
-					}else{
-						StringBuilder builder = new StringBuilder();
+					int ansPerformative = ACLMessage.INFORM;
+					String ansContent = THANKS;
 
-						for (double val : workingData) {
-							builder.append(String.format("%s ", Double.toString(val)));
-						}
-
-						String msgContentData = String.format("%s %d %s", DATA, workingData.size(), builder.toString().trim());
-						sendMessage(msg.getSender().getLocalName(), ACLMessage.REQUEST,
-										String.format("%s %s", operations.remove(), msgContentData));
+					if ( !operations.isEmpty() ) {
+						ansPerformative = ACLMessage.REQUEST;
+						ansContent = String.format("%s %s %d %s", operations.remove(), DATA, workingData.size(), prepareSendingData(workingData));
 					}
+
+					sendMessage(msg.getSender().getLocalName(), ansPerformative, ansContent);
 				} else {
 					logger.log(Level.INFO,
 							String.format("%s %s %s", getLocalName(), UNEXPECTED_MSG,
@@ -100,5 +80,15 @@ public class Manager extends BaseAgent {
 				}
 			}
 		};
+	}
+
+	private String prepareSendingData (ArrayList<Double> inputWorkingData) {
+		StringBuilder builder = new StringBuilder();
+
+		for ( double val : workingData ) {
+			builder.append(String.format("%s ", Double.toString(val)));
+		}
+
+		return builder.toString().trim();
 	}
 }
