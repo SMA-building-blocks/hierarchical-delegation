@@ -216,7 +216,7 @@ public abstract class BaseAgent extends Agent {
 	protected ArrayList<Double> parseData(ACLMessage msg) {
 		String msgContent = msg.getContent();
 
-		msgContent = msgContent.replaceAll("\\[|\\]|[,]", "");
+		msgContent = msgContent.replaceAll("[\\[\\],]", "").trim();
 
 		ArrayList<String> splitedMsg = new ArrayList<>(Arrays.asList(msgContent.split(" ")));
 
