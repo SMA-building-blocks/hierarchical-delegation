@@ -103,6 +103,6 @@ public class App extends BaseAgent {
 			newData.append(String.format("%d ", rand.nextInt(1, 101)));
 		}
 
-		return data.toString().trim();
+		return newData.toString().trim();
 	}
 }

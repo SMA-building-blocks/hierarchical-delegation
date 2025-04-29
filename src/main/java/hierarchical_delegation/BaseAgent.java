@@ -2,6 +2,7 @@ package hierarchical_delegation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -39,7 +40,7 @@ public abstract class BaseAgent extends Agent {
 	public static final String STD_DEVIATION = "STD_DEVIATION";
 	public static final String SORT = "SORT";
 
-	protected static final ArrayList<String> originalOperations = new ArrayList<>(Arrays.asList(
+	protected static final List<String> originalOperations = new ArrayList<>(Arrays.asList(
 			AVERAGE, MEDIAN, MODE, STD_DEVIATION, SORT));
 
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -229,6 +230,6 @@ public abstract class BaseAgent extends Agent {
 			returnData.add(Double.parseDouble(splitedMsg.get(i)));
 		}
 
-		return data;
+		return returnData;
 	}
 }
