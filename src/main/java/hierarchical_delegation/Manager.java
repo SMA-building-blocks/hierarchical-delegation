@@ -15,7 +15,7 @@ public class Manager extends BaseAgent {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Queue<String> operations;
+	private Queue<String> operations;
 
 	@Override
 	protected void setup() {
@@ -41,7 +41,7 @@ public class Manager extends BaseAgent {
 						Collections.shuffle(originalOperations);
 						operations = new LinkedList<>(originalOperations);
 
-						StringBuffer builder = new StringBuffer();
+						StringBuilder builder = new StringBuilder();
 
 						for (double val : data) {
 							builder.append(String.format("%s ", Double.toString(val)));
@@ -77,13 +77,13 @@ public class Manager extends BaseAgent {
 
 					logger.log(Level.INFO, String.format("%s RECEIVED DATA FROM %s AFTER %s OPERATION: %s!", getLocalName(), msg.getSender().getLocalName(), performedOp, recvData.toString()));
 
-					if(operations.size()==0){
+					if(operations.isEmpty()){
 						ACLMessage msg2 = msg.createReply();
 						msg2.setPerformative(ACLMessage.INFORM);
 						msg2.setContent(THANKS);
 						send(msg2);
 					}else{
-						StringBuffer builder = new StringBuffer();
+						StringBuilder builder = new StringBuilder();
 
 						for (double val : data) {
 							builder.append(String.format("%s ", Double.toString(val)));
