@@ -5,11 +5,11 @@ import java.util.Arrays;
 
 public class StdDeviationStrategy implements Strategy {
     @Override
-    public ArrayList<Double> executeOperation(ArrayList<Double> data) {
-        double avg = (double) data.stream().mapToDouble(element -> element).sum()/data.size();
+    public ArrayList<Double> executeOperation(ArrayList<Double> recvData) {
+        double avg = recvData.stream().mapToDouble(element -> element).sum()/recvData.size();
 
-        double variance = data.stream().mapToDouble(element -> ((element - avg)*(element - avg))).sum()/data.size();
+        double variance = recvData.stream().mapToDouble(element -> ((element - avg)*(element - avg))).sum()/recvData.size();
 
-        return new ArrayList<>(Arrays.asList((double) ((double) Math.round(Math.sqrt(variance) * 100)/100)));
+        return new ArrayList<>(Arrays.asList(((double) Math.round(Math.sqrt(variance) * 100)/100)));
     }
 }
