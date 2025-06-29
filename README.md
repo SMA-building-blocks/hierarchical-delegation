@@ -9,16 +9,52 @@
 
 *Tabela 1: Identificação dos Autores*
 
+## Métricas do *Building Block*
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=tcc-sma-andre-gabriel_hierarchical-delegation&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=tcc-sma-andre-gabriel_hierarchical-delegation)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=tcc-sma-andre-gabriel_hierarchical-delegation&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=tcc-sma-andre-gabriel_hierarchical-delegation)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=tcc-sma-andre-gabriel_hierarchical-delegation&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=tcc-sma-andre-gabriel_hierarchical-delegation)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=tcc-sma-andre-gabriel_hierarchical-delegation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=tcc-sma-andre-gabriel_hierarchical-delegation)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=tcc-sma-andre-gabriel_hierarchical-delegation&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=tcc-sma-andre-gabriel_hierarchical-delegation)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=tcc-sma-andre-gabriel_hierarchical-delegation&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=tcc-sma-andre-gabriel_hierarchical-delegation)
+
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=tcc-sma-andre-gabriel_hierarchical-delegation)
+
 ## Descrição
 
 O *building block* contido neste repositório tem por objetivo a implementação de uma Estrutura Hierárquica de Delegação, onde o agente responsável pela decisão, representando o "topo da hierarquia", delega aos agentes subordinados, tomando como base para tal decisão a capacidade e disponibilidade de cada um
 dos respectivos agentes subalternos, a execução das operações devidas sobre a informação inicial, informando a ele os resultados obtidos.
 
-<!-- ### Projeto em Execução
+Inicialmente, o agente *creator*, também responsável por instanciar todo o domínio onde será executado o *building block*, envia uma mensagem solicitando o início das atividades ao agente *manager*, enviando também um conjunto de dados sobre os quais serão aplicadas as operações. O *manager*, tendo recebido a mensagem de início das atividades e o conjunto de dados, começa a enviar, de maneira randômica, uma solicitação de realização de determinadas operações a todos os agentes subordinados disponíveis.
 
-<img src="" alt="Descrição do Print">
+Tendo recebido o conjunto de dados e a operação a ser realizada por parte do agente *manager*, os subordinados executam a requisição demandada e retornam ao *manager* o resultado obtido. Caso todas as operações necessárias tenham sido executadas, o *manager* apenas agradece aos subordinados e finaliza a execução da atividade solicitada. Caso contrário, ele continua demandando aos agentes que já tenham finalizado as operações requisitadas a realização das demais.
 
-*Figura 1: Print do Projeto em Execução* -->
+## Projeto em Execução
+
+Abaixo, na *Figura 1*, é possível ver o *sniffer* apresentando todos os agentes instanciados para a correta execução do *building block*, contendo o *creator* (nomeado por "hierarchical-delegation"), o agente *manager* e todos os agentes subordinados, para além do agente *DF*.
+
+<img src="assets/figura1.png" alt="Visualização dos agentes pelo sniffer">
+
+*Figura 1: Visualização dos Agentes pelo Sniffer*
+
+Já na *Figura 2*, é possível ver o conteúdo da mensagem de *start* enviada pelo agente *creator* para o *manager*, a qual contém também o conjunto de dados sobre os quais serão executadas todas as operações necessárias.
+
+<img src="assets/figura2.png" alt="Mensagem de *start* com os dados que serão utilizados">
+
+*Figura 2: Mensagem de *start* com os dados que serão utilizados*
+
+Na *Figura 3*, é apresentada uma representação de uma mensagem enviada pelo *manager* para os agentes subordinados, contendo a operação a ser realizada juntamente do conjunto de dados sobre os quais esta será aplicada.
+
+<img src="assets/figura3.png" alt="Mensagem solicitando a realização de uma operação sobre os dados">
+
+*Figura 3: Mensagem solicitando a realização de uma operação sobre os dados*
+
+Por fim, é apresentada na *Figura 4* a mensagem enviada de um agente subordinado para o *manager* com o resultado da operação solicitada pelo mesmo sobre os dados recebidos.
+
+<img src="assets/figura4.png" alt="Mensagem informando o resultado operação aplicada sobre os dados">
+
+*Figura 4: Mensagem informando o resultado operação aplicada sobre os dados*
 
 ## Requisitos Técnicos
 
@@ -68,10 +104,22 @@ make build
 make run
 ```
 
+- É possível alterar a quantidade de agentes participantes ao passar a variável **QUORUM** seguida do número desejado, como pode ser visto abaixo (onde N representa o número desejado de agentes):
+
+```bash
+make build-and-run QUORUM=N
+```
+
 - Por fim, para apagar os arquivos derivados da *build* do projeto, execute o seguinte comando:
 
 ```bash
 make clean
+```
+
+- Para ter acesso a uma série de informações úteis para a execução do building block, basta executar o seguinte comando:
+
+```bash
+make help
 ```
 
 ## Referências
