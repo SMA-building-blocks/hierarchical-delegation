@@ -48,7 +48,7 @@ public class Manager extends BaseAgent {
 					Collections.shuffle(foundWorkers);
 
 					while ( !operations.isEmpty() && !foundWorkers.isEmpty() ) {
-						DFAgentDescription selectedWorker = foundWorkers.removeFirst();
+						DFAgentDescription selectedWorker = foundWorkers.remove(0);
 
 						sendMessage(selectedWorker.getName().getLocalName(), ACLMessage.REQUEST,
 							String.format("%s %s", operations.remove(), msgContentData));
