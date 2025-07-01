@@ -47,10 +47,12 @@ public class Manager extends BaseAgent {
 
 					Collections.shuffle(foundWorkers);
 
-					foundWorkers.forEach(ag -> {
-						sendMessage(ag.getName().getLocalName(), ACLMessage.REQUEST,
-								String.format("%s %s", operations.remove(), msgContentData));
-					});
+					while ( !operations.isEmpty() && !foundWorkers.isEmpty() ) {
+						DFAgentDescription selectedWorker = foundWorkers.removeFirst();
+
+						sendMessage(selectedWorker.getName().getLocalName(), ACLMessage.REQUEST,
+							String.format("%s %s", operations.remove(), msgContentData));
+					}
 
 					logger.log(Level.INFO, String.format("%s SENT START MESSAGE TO WORKERS!", getLocalName()));
 				} else if (msg.getContent().startsWith(THANKS)) {
