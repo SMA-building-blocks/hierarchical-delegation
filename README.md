@@ -32,7 +32,7 @@ Tendo recebido o conjunto de dados e a operação a ser realizada por parte do a
 
 ## Projeto em Execução
 
-Abaixo, na *Figura 1*, é possível ver o *sniffer* apresentando todos os agentes instanciados para a correta execução do *building block*, contendo o *creator* (nomeado por "hierarchical-delegation"), o agente *manager* e todos os agentes subordinados, para além do agente *DF*.
+Abaixo, na *Figura 1*, é possível ver o *sniffer* apresentando todos os agentes instanciados para a correta execução do *building block*, contendo o *creator*, o agente *manager* e todos os agentes subordinados, para além do agente *DF*.
 
 <img src="assets/figura1.png" alt="Visualização dos agentes pelo sniffer">
 

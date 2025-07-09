@@ -2,7 +2,7 @@ QUORUM ?= 5
 DF_MAX_RESULT := $(shell expr $(QUORUM) + 5)
 PATH_PROJECT_JAR = target/hierarchical_delegation-0.0.1-SNAPSHOT.jar
 PROJECT_GROUP    = hierarchical_delegation
-JADE_AGENTS      = hierarchical_delegation:$(PROJECT_GROUP).App($(QUORUM));
+JADE_AGENTS      = creator:$(PROJECT_GROUP).Creator($(QUORUM));
 JADE_FLAGS 		 = -gui -jade_domain_df_maxresult $(DF_MAX_RESULT) -agents "$(JADE_AGENTS)"
 
 .PHONY:
