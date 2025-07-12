@@ -30,31 +30,45 @@ Inicialmente, o agente *creator*, também responsável por instanciar todo o dom
 
 Tendo recebido o conjunto de dados e a operação a ser realizada por parte do agente *manager*, os subordinados executam a requisição demandada e retornam ao *manager* o resultado obtido. Caso todas as operações necessárias tenham sido executadas, o *manager* apenas agradece aos subordinados e finaliza a execução da atividade solicitada. Caso contrário, ele continua demandando aos agentes que já tenham finalizado as operações requisitadas a realização das demais.
 
+## Diagramação
+
+Abaixo, é apresentado o Diagrama de Classes que visa representar a estrutura e organização das classes que compõem o sistema, para além das relações entre estas.
+
+<img src="assets/diagrama_de_classes.png" alt="Diagrama de Classes">
+
+*Figura 1: Diagrama de Classes da Aplicação*
+
+Já abaixo, é apresentado o Diagrama de Sequências, o qual busca apresentar os fluxos de interação e algumas de suas nuances entre todas as classes (instanciadas enquanto agentes) da aplicação desenvolvida.
+
+<img src="assets/diagrama_de_sequencias.png" alt="Diagrama de Sequências">
+
+*Figura 2: Diagrama de Sequências da Aplicação*
+
 ## Projeto em Execução
 
-Abaixo, na *Figura 1*, é possível ver o *sniffer* apresentando todos os agentes instanciados para a correta execução do *building block*, contendo o *creator*, o agente *manager* e todos os agentes subordinados, para além do agente *DF*.
+Abaixo, na *Figura 3*, é possível ver o *sniffer* apresentando todos os agentes instanciados para a correta execução do *building block*, contendo o *creator*, o agente *manager* e todos os agentes subordinados, para além do agente *DF*.
 
 <img src="assets/figura1.png" alt="Visualização dos agentes pelo sniffer">
 
-*Figura 1: Visualização dos Agentes pelo Sniffer*
+*Figura 3: Visualização dos Agentes pelo Sniffer*
 
-Já na *Figura 2*, é possível ver o conteúdo da mensagem de *start* enviada pelo agente *creator* para o *manager*, a qual contém também o conjunto de dados sobre os quais serão executadas todas as operações necessárias.
+Já na *Figura 4*, é possível ver o conteúdo da mensagem de *start* enviada pelo agente *creator* para o *manager*, a qual contém também o conjunto de dados sobre os quais serão executadas todas as operações necessárias.
 
 <img src="assets/figura2.png" alt="Mensagem de *start* com os dados que serão utilizados">
 
-*Figura 2: Mensagem de *start* com os dados que serão utilizados*
+*Figura 4: Mensagem de *start* com os dados que serão utilizados*
 
-Na *Figura 3*, é apresentada uma representação de uma mensagem enviada pelo *manager* para os agentes subordinados, contendo a operação a ser realizada juntamente do conjunto de dados sobre os quais esta será aplicada.
+Na *Figura 5*, é apresentada uma representação de uma mensagem enviada pelo *manager* para os agentes subordinados, contendo a operação a ser realizada juntamente do conjunto de dados sobre os quais esta será aplicada.
 
 <img src="assets/figura3.png" alt="Mensagem solicitando a realização de uma operação sobre os dados">
 
-*Figura 3: Mensagem solicitando a realização de uma operação sobre os dados*
+*Figura 5: Mensagem solicitando a realização de uma operação sobre os dados*
 
-Por fim, é apresentada na *Figura 4* a mensagem enviada de um agente subordinado para o *manager* com o resultado da operação solicitada pelo mesmo sobre os dados recebidos.
+Por fim, é apresentada na *Figura 6* a mensagem enviada de um agente subordinado para o *manager* com o resultado da operação solicitada pelo mesmo sobre os dados recebidos.
 
 <img src="assets/figura4.png" alt="Mensagem informando o resultado operação aplicada sobre os dados">
 
-*Figura 4: Mensagem informando o resultado operação aplicada sobre os dados*
+*Figura 6: Mensagem informando o resultado operação aplicada sobre os dados*
 
 ## Requisitos Técnicos
 
